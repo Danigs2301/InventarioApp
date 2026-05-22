@@ -1,0 +1,22 @@
+namespace InventarioApp.Models;
+
+
+public class producto
+{
+    public int Id { get; set; }
+    public string Nombre { get; set; } = "";
+    public string Descripcion { get; set; } = "";
+    public decimal Precio { get; set; }
+    public int Cantidad { get; set; }
+    public CategoriaProducto Categoria { get; set; }
+    public EstadoProducto Estado { get; set; } = EstadoProducto.Activo;
+    public DateTime FechaRegistro { get; set; } = DateTime.Now;
+    public decimal ValorTotal => Precio * Cantidad;
+
+    public override string ToString()
+    {
+        return $"ID: {Id}, Nombre: {Nombre}, Precio: {Precio:N2}, Cantidad: {Cantidad}, Valor Total: {ValorTotal:N2}";
+    }
+
+
+}

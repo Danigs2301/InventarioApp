@@ -1,64 +1,99 @@
-﻿using System.Reflection;
+﻿
 
-//Exit codes:
-//0: Success
-//1: Invalid command
-//2: Unknown command
+//Variables
+int itemsEnInventario = 0;
+decimal valorTotalInventario = 0.00m;
+bool sistemaActivo = true;
 
-var assembly = Assembly.GetExecutingAssembly();
-var version = assembly.GetName().Version;
+ShowBanner();
+bool continuar = true;
 
-if (args.Length > 0) {
-    switch(args[0]){
-        case "--help":
-            ShowHelp();
-            Environment.Exit(0);
-            break;
+while (continuar){
+    showMenu();
+    string comando = LeerEntrada("Inventario ");
+    Console.WriteLine($"Comando ingresado: {comando}");
+    continuar = false;
+}
+
+//========= METODOS =========
+bool ProcesarComando(string comando){
+    switch(comando){
+        case "listar":
+            ListarProductos();
+            return true;
         
-        case "--version":
-            Console.WriteLine($"InventarioApp v[{version}]");
-            Environment.Exit(0);
-            break;
-
+        case "agregar":
+            AgregarProducto();
+            return true;
         
+        case "buscar":
+            BuscarProducto();
+            return true;
 
+        case "salir":
+            Console.WriteLine($"Hasta luego");
+            sistemaActivo = false;
+            return false;
+        
         default:
-            Console.WriteLine($"Error: Comando desconocido: '{args[0]}'");
-            Console.WriteLine($"Use --help para ver los comandos disponibles.");
-            Environment.Exit(2);
-            break;
-
-        
+            Console.WriteLine($"Comando no valido: '{comando}'");
+            return true;
     }
 }
 
-ShowBanner();
-
-//Interactive mode if no arguments provided
-Console.WriteLine($"Insert command (o 'salir' para terminar):");
-string? input = Console.ReadLine(); //STDIN para leer comandos del usuario
-
-if (string.IsNullOrWhiteSpace(input) || input.ToLower() == "salir") {
-    Console.WriteLine($"Hasta luego");
-    Environment.Exit(0);
+void ListarProductos(){
+    Console.WriteLine($"Items en inventario: {itemsEnInventario}");
+    Console.WriteLine($"Valor de inventario: {valorTotalInventario}");
 }
 
+void AgregarProducto(){
+    Console.WriteLine($"Agregar producto: Modulo 3");
+}
 
-// Console.WriteLine($"Estructura del proyecto:");
-// Console.WriteLine($"InventarioApp/");
-// Console.WriteLine($" |-- Program.cs");
-// Console.WriteLine($" |-- InventarioApp.csproj");
-// Console.WriteLine($" |-- gitignore");
-// Console.WriteLine($" |-- Readme.md");
-// Console.WriteLine($" |-- src/");
-// Console.WriteLine($" |-- Models/");
-// Console.WriteLine($"Configuracion .csproj:");
-// Console.WriteLine($"Carpeta src/ creada:");
-// Console.WriteLine($"Metadatos configurados:");
+void BuscarProducto(){
+    Console.WriteLine($"Buscar producto: Modulo 4");
+}
+
+string LeerEntrada(string prompt){
+    string salida = "El prompt ingresado es: " + prompt;
+    return salida;
+}   
+
+string showMenu(){
+    return
+    "MENU PRINCIPAL\n" +
+    "1. lista - Ver productos\n" +
+    "2. agregar - Agregar producto\n" +
+    "3. buscar - Buscar producto\n" +
+    "4. salir - Terminar\n";
+}
+
+// void showMenu(){
+//     Console.WriteLine($"Coloque la opción a realizar:");
+//     string? input = Console.ReadLine();
+//     string comandoLimpio = string.IsNullOrEmpty(input) ? "salir" : input.Trim().ToLower() ?? "salir";
+
+//     switch(comandoLimpio){
+//         case "salir":
+//             Console.WriteLine($"Hasta luego");
+//             sistemaActivo = false;
+//             break;
+        
+//         case "listar":
+//             Console.WriteLine($"Items en inventario: {itemsEnInventario}");
+//             break;
+
+//         default:
+//             Console.WriteLine($"Comando desconocido: '{comandoLimpio}'");
+//             Console.WriteLine($"Comandos disponibles: agregar, remover, mostrar, salir");
+//             break;
+//     }
+// }
+
+
 
 void ShowBanner(){
-    Console.WriteLine($"InventarioApp v[{version}]");
-    Console.WriteLine($".NET: {Environment.Version}");
+    Console.WriteLine($"App de gestión de inventario versión");
 }
 
 void ShowHelp(){
